@@ -4,7 +4,7 @@ import { config } from "../config.js";
 export function handlerMetrics(_: Request, res: Response) {
     res.set('Content-Type', 'text/html; charset=utf-8');
     res.send(`<html>\n<body>\n<h1>Welcome, Chirpy Admin</h1>\n
-    <p>Chirpy has been visited ${config.fileserverHits} times!</p>\n
+    <p>Chirpy has been visited ${config.api.fileserverHits} times!</p>\n
     </body>\n</html>`);
 }
 
