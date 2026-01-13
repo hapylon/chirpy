@@ -8,6 +8,20 @@
       "when": 1768237358811,
       "tag": "0000_cooing_hellion",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1768276845197,
+      "tag": "0001_lonely_golden_guardian",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1768277316485,
+      "tag": "0002_faithful_ink",
+      "breakpoints": true
     }
   ]
 }

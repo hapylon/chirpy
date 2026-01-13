@@ -4,15 +4,19 @@ import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { drizzle } from "drizzle-orm/postgres-js";
 
 import { handlerReadiness } from "./api/readiness.js";
-import { handlerValidate } from "./api/validate.js";
+import { handlerChirps } from "./api/chirps.js";
+import { handlerGetChirps } from "./api/getchirps.js";
+import { handlerGetOneChirp } from "./api/getonechirp.js";
 import { handlerMetrics } from "./admin/metrics.js";
 import { handlerReset } from "./admin/reset.js";
+import { handlerCreateUser } from "./api/createuser.js";
 import { 
   middlewareLogResponse, 
   middlewareMetricsInc 
 } from "./api/middleware.js"; 
 import { errorHandler } from "./api/errorhandler.js"
 import { config } from "./config.js";
+import { Forbidden } from "./api/errorhandler.js";
 
 const migrationClient = postgres(config.db.url, { max: 1 });
 await migrate(drizzle(migrationClient), config.db.migrationConfig);
@@ -27,13 +31,29 @@ app.use("/app", middlewareMetricsInc, express.static("./src/app"));
 app.get("/api/healthz", handlerReadiness);
 app.get("/admin/metrics", handlerMetrics);
 app.post("/admin/reset", handlerReset);
-app.post("/api/validate_chirp", async (req, res, next) =>  {
+
+app.post("/api/chirps", async (req, res, next) =>  {
   try {
-    await handlerValidate(req, res);
+    await handlerChirps(req, res);
   } catch (err) {
     next(err);
   }
 });
+app.get("/api/chirps", async (req, res, next) =>  {
+  try {
+    await handlerGetChirps(req, res);
+  } catch (err) {
+    next(err);
+  }
+});
+app.get("/api/chirps/:name", async (req, res, next) =>  {
+  try {
+    await handlerGetOneChirp(req, res);
+  } catch (err) {
+    next(err);
+  }
+});
+app.post("/api/users", handlerCreateUser);
 
 app.use(errorHandler);
 app.listen(config.api.port, () => {

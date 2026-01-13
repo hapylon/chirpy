@@ -6,7 +6,17 @@ function envOrThrow(key) {
     return value;
 }
 process.loadEnvFile();
+const migrationConfig = {
+    migrationsFolder: "./src/db/migrations",
+};
 export const config = {
-    fileserverHits: 0,
-    dbURL: envOrThrow("DB_URL")
+    api: {
+        fileserverHits: 0,
+        port: Number(envOrThrow("PORT")),
+        platform: String(envOrThrow("PLATFORM"))
+    },
+    db: {
+        url: envOrThrow("DB_URL"),
+        migrationConfig: migrationConfig,
+    },
 };
