@@ -1,0 +1,2 @@
+removed from package.json scripts to add vitest:
+"test": "echo \"Error: no test specified\" && exit 1",

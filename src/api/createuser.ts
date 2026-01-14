@@ -5,24 +5,31 @@ import { NewUser, CreatedUser } from "../db/schema.js";
 import { BadRequest, NotFound } from "./errorhandler.js";
 import { createCipheriv } from "node:crypto";
 import { randomUUID } from "crypto";
+import { hashPassword } from "./auth.js";
 
 
 export async function handlerCreateUser(req: Request, res: Response) {
     type parameters = {
         email: string;
+        password: string;
     }
     const params: parameters = req.body;
     if (params.email == null || params.email == "") {
         throw new BadRequest("email seems null");
     }
+    if (params.password == null) {
+        throw new BadRequest("password seems null");
+    }
     if (isValidEmail(params.email)) {
-        console.log("body:", req.body);
+        // console.log("body:", req.body);
         try {
+            let hashPass = await hashPassword(params.password)
             let createdUser = await createUser({
                 id: randomUUID(),
-                email: params.email
+                email: params.email,
+                hashedPassword: hashPass,
             });
-            console.log("user:", createdUser);
+            // console.log("user:", createdUser);
         if (createdUser == null) {
             throw new Error("failed to create user");
         } else {

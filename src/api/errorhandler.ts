@@ -6,7 +6,7 @@ export class BadRequest extends Error {
   constructor(message: string) {
     super(message);
     Object.setPrototypeOf(this, BadRequest.prototype);
-    this.message = "Chirp is too long. Max length is 140";
+    // this.message = "Chirp is too long. Max length is 140";
   }
 }
 
@@ -14,7 +14,7 @@ export class Unauthorized extends Error {
   constructor(message: string) {
     super(message);
     Object.setPrototypeOf(this, Unauthorized.prototype);
-    this.message = "Not authorized";
+    // this.message = "Not authorized";
   }
 }
 
@@ -22,7 +22,7 @@ export class Forbidden extends Error {
   constructor(message: string) {
     super(message);
     Object.setPrototypeOf(this, Forbidden.prototype);
-    this.message = "That's forbidden!";
+    // this.message = "That's forbidden!";
   }
 }
 
@@ -30,7 +30,7 @@ export class NotFound extends Error {
   constructor(message: string) {
     super(message);
     Object.setPrototypeOf(this, NotFound.prototype);
-    this.message = "We're not finding that";
+    // this.message = "We're not finding that";
   }
 }
 

@@ -1,17 +1,20 @@
 import { respondWithJSON } from "./json.js";
-import { BadRequest } from "./errorhandler.js";
+import { BadRequest, Unauthorized } from "./errorhandler.js";
 import { db } from "../db/index.js";
 import { chirps } from "../db/schema.js";
 import { randomUUID } from "crypto";
+import { getBearerToken, validateJWT } from "./auth.js";
+import { config } from "../config.js";
 export const maxChirpLength = 140;
 export async function handlerChirps(req, res) {
     const body = req.body.body;
-    const userId = req.body.userId;
+    const token = getBearerToken(req);
+    const userId = validateJWT(token, config.secret);
     if (!userId
         || typeof body !== "string"
         || body.length === 0
         || typeof userId !== "string") {
-        throw new BadRequest("valid userId and chirp required");
+        throw new Unauthorized("Authentication required to chirp");
     }
     if (body.length > maxChirpLength) {
         throw new BadRequest(`Chirp is too long. Max length is ${maxChirpLength}`);

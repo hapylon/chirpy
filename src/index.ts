@@ -10,6 +10,9 @@ import { handlerGetOneChirp } from "./api/getonechirp.js";
 import { handlerMetrics } from "./admin/metrics.js";
 import { handlerReset } from "./admin/reset.js";
 import { handlerCreateUser } from "./api/createuser.js";
+import { handlerLogin } from "./api/login.js";
+import { handlerRefresh } from "./api/auth.js";
+import { handlerRevoke } from "./api/auth.js";
 import { 
   middlewareLogResponse, 
   middlewareMetricsInc 
@@ -54,6 +57,9 @@ app.get("/api/chirps/:name", async (req, res, next) =>  {
   }
 });
 app.post("/api/users", handlerCreateUser);
+app.post("/api/login", handlerLogin);
+app.post("/api/refresh", handlerRefresh);
+app.post("/api/revoke", handlerRevoke);
 
 app.use(errorHandler);
 app.listen(config.api.port, () => {
