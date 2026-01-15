@@ -36,6 +36,13 @@
       "when": 1768364407658,
       "tag": "0004_nappy_hardball",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1768431452988,
+      "tag": "0005_bitter_vampiro",
+      "breakpoints": true
     }
   ]
 }

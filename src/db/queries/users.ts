@@ -1,6 +1,6 @@
 import { db } from "../index.js";
 import { NewUser, users, UserInfo } from "../schema.js";
-import { eq } from "drizzle-orm";
+import { eq, getTableColumns } from "drizzle-orm";
 
 export async function createUser(user: NewUser) {
   const [result] = await db
@@ -12,7 +12,8 @@ export async function createUser(user: NewUser) {
 }
 
 export async function getUserInfo(userId: string): Promise<UserInfo> {
-  const [user] = await db.select()
+  const {hashedPassword, ...rest} = getTableColumns(users);
+  const [user] = await db.select({...rest})
   .from(users)
   .where(eq(users.id, userId));
   return user;

@@ -6,6 +6,7 @@ import { BadRequest, NotFound } from "./errorhandler.js";
 import { createCipheriv } from "node:crypto";
 import { randomUUID } from "crypto";
 import { hashPassword } from "./auth.js";
+import { isValidEmail } from "../utils/validemail.js";
 
 
 export async function handlerCreateUser(req: Request, res: Response) {
@@ -37,7 +38,8 @@ export async function handlerCreateUser(req: Request, res: Response) {
                 "id": createdUser.id,
                 "createdAt": createdUser.createdAt,
                 "updatedAt": createdUser.updatedAt,
-                "email": createdUser.email
+                "email": createdUser.email,
+                "isChirpyRed": createdUser.isChirpyRed
             }
             respondWithJSON(res, 201, payload);
         }
@@ -48,9 +50,4 @@ export async function handlerCreateUser(req: Request, res: Response) {
     //     else {
     //     throw new BadRequest("valid email required");
     }
-}
-
-function isValidEmail(email: string): boolean {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
 }

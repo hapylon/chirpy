@@ -5,13 +5,16 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { handlerReadiness } from "./api/readiness.js";
 import { handlerChirps } from "./api/chirps.js";
 import { handlerGetChirps } from "./api/getchirps.js";
+import { handlerDeleteChirps } from "./api/deletechirps.js";
 import { handlerGetOneChirp } from "./api/getonechirp.js";
 import { handlerMetrics } from "./admin/metrics.js";
 import { handlerReset } from "./admin/reset.js";
 import { handlerCreateUser } from "./api/createuser.js";
+import { handlerUpdateUser } from "./api/updateusers.js";
 import { handlerLogin } from "./api/login.js";
 import { handlerRefresh } from "./api/auth.js";
 import { handlerRevoke } from "./api/auth.js";
+import { handlerWebhooks } from "./api/webhooks.js";
 import { middlewareLogResponse, middlewareMetricsInc } from "./api/middleware.js";
 import { errorHandler } from "./api/errorhandler.js";
 import { config } from "./config.js";
@@ -34,6 +37,7 @@ app.post("/api/chirps", async (req, res, next) => {
     }
 });
 app.get("/api/chirps", async (req, res, next) => {
+    // const {asc, desc} = req.query;
     try {
         await handlerGetChirps(req, res);
     }
@@ -50,9 +54,26 @@ app.get("/api/chirps/:name", async (req, res, next) => {
     }
 });
 app.post("/api/users", handlerCreateUser);
+app.post("/api/polka/webhooks", async (req, res, next) => {
+    try {
+        await handlerWebhooks(req, res);
+    }
+    catch (err) {
+        next(err);
+    }
+});
 app.post("/api/login", handlerLogin);
 app.post("/api/refresh", handlerRefresh);
 app.post("/api/revoke", handlerRevoke);
+app.put("/api/users", handlerUpdateUser);
+app.delete("/api/chirps/:chirpID", async (req, res, next) => {
+    try {
+        await handlerDeleteChirps(req, res);
+    }
+    catch (err) {
+        next(err);
+    }
+});
 app.use(errorHandler);
 app.listen(config.api.port, () => {
     console.log(`Server is running at http://localhost:${config.api.port}`);

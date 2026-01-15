@@ -13,7 +13,8 @@ export const config = {
     api: {
         fileserverHits: 0,
         port: Number(envOrThrow("PORT")),
-        platform: String(envOrThrow("PLATFORM"))
+        platform: String(envOrThrow("PLATFORM")),
+        polkaKey: String(envOrThrow("POLKA_KEY"))
     },
     db: {
         url: envOrThrow("DB_URL"),

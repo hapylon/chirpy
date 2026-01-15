@@ -125,3 +125,13 @@ export async function handlerRevoke(req: Request, res: Response) {
     .where(eq(refresh_tokens.token, token));
     respondWithJSON(res, 204, null);
 }
+
+export function getAPIKey(req: Request) {
+    const authHeader = req.headers['authorization'];
+    if (authHeader && authHeader.startsWith("ApiKey ")) {
+        const key = authHeader.split(" ")[1];
+        return key;
+    } else {
+        throw new Unauthorized("API key not found");
+    }
+}

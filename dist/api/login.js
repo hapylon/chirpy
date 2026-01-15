@@ -46,7 +46,7 @@ export async function userIdToPasswordHash(userId) {
         .select({ id: users.id, hashedPassword: users.hashedPassword })
         .from(users)
         .where(eq(users.id, userId));
-    if (user == null || user.id == null) {
+    if (!user || user.id == null || !user.hashedPassword) {
         throw new Unauthorized("Incorrect email or password");
     }
     else {

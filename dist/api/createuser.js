@@ -3,6 +3,7 @@ import { createUser } from "../db/queries/users.js";
 import { BadRequest } from "./errorhandler.js";
 import { randomUUID } from "crypto";
 import { hashPassword } from "./auth.js";
+import { isValidEmail } from "../utils/validemail.js";
 export async function handlerCreateUser(req, res) {
     const params = req.body;
     if (params.email == null || params.email == "") {
@@ -29,7 +30,8 @@ export async function handlerCreateUser(req, res) {
                     "id": createdUser.id,
                     "createdAt": createdUser.createdAt,
                     "updatedAt": createdUser.updatedAt,
-                    "email": createdUser.email
+                    "email": createdUser.email,
+                    "isChirpyRed": createdUser.isChirpyRed
                 };
                 respondWithJSON(res, 201, payload);
             }
@@ -41,8 +43,4 @@ export async function handlerCreateUser(req, res) {
         //     else {
         //     throw new BadRequest("valid email required");
     }
-}
-function isValidEmail(email) {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
 }

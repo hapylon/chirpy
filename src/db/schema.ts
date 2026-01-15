@@ -1,4 +1,4 @@
-import { pgTable, timestamp, varchar, uuid } from "drizzle-orm/pg-core";
+import { pgTable, timestamp, varchar, uuid, boolean } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 // import { maxChirpLength } from "../api/chirp.js";
 
@@ -15,6 +15,9 @@ export const users = pgTable("users", {
   hashedPassword: varchar("hashed_password")
     .notNull()
     .default("unset"),
+  isChirpyRed: boolean("is_chirpy_red")
+    .notNull()
+    .default(false),
 });
 
 export const chirps = pgTable("chirps", {
